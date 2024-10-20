@@ -14,6 +14,7 @@ sleep 1
 
 image_list=""
 
+echo "スクリーンショットを開始します"
 for i in $(seq 1 $repeat_count)
 do
   FILENAME="screenshot_$(date +%Y%m%d_%H%M%S)_${i}.png"
@@ -21,18 +22,17 @@ do
 
   screencapture -x "$SAVE_PATH"
 
-  echo "スクリーンショットが保存されました: $SAVE_PATH"
-
   image_list="$image_list $SAVE_PATH"
 
   osascript -e 'tell application "System Events" to key code 124' # 左カーソル: 123, 右カーソル: 124
 
   sleep 0.3
 done
+echo "スクリーンショットを開始します"
 
 echo "PDFファイルを作成・圧縮を開始します"
 PDF_FILE="$SAVE_DIR/$BOOK_NAME.pdf"
-convert $image_list -resize 70% -quality 90 $PDF_FILE # 画像のリサイズと圧縮率は適宜調整してください
+magick $image_list -resize 70% -quality 90 $PDF_FILE # 画像のリサイズと圧縮率は適宜調整してください
 
 rm $image_list
 
